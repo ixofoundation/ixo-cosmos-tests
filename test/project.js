@@ -111,7 +111,40 @@ describe('Projects', () => {
                 res.body.result.code.should.not.be.eql(0);
             done();
           });
+      });
     });
+
+    describe('Update Project Status', () => {
+      const Project_STATUS = {
+        NullStatus: "",
+        CreatedProject: "CREATED",
+        PendingStatus: "PENDING",
+        FundedStatus: "FUNDED",
+        StartedStatus: "STARTED",
+        StoppedStatus: "STOPPED",
+        PaidoutStatus: "PAIDOUT",
+      };
+
+      it('it update the status', (done) => {
+        payloadValue = {
+          data:{
+            status:Project_STATUS.CreatedProject,
+            ethFundingTxnID:""
+          },
+          txHash:"1000001",
+          senderDid:did1.did,
+          projectDid:projectDid.did
+        };
+        chai.request(config.BLOCKCHAIN_URL)
+          .get(utils.makeURL('project/UpdateProjectStatus', projectDid, payloadValue))
+          .end((err, res) => {
+              res.should.have.status(200);
+              mlog.log(JSON.stringify(res.body));
+              res.body.result.code.should.be.eql(0);
+        done();
+      });
+    });
+
   });
 
   describe('Create Agent', () => {
