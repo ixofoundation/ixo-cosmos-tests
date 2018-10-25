@@ -14,6 +14,7 @@ chai.use(chaiHttp);
 var createProjectDidTx = function(did){
   let payloadValue = {
     data: {
+      nodeDid:"12345",
       createdOn:utils.newDateAsJSON(),
       createdBy:did.did,
       requiredClaims:"1298",
@@ -71,6 +72,7 @@ describe('Projects', () => {
         createdBy:did.did,
         country:"TG",
         sdgs:["3","6","15"],
+        nodeDid:"12345",
         requiredClaims:"1298",
         claimTemplate:"togo_default",
         evaluatorPayPerClaim:"10234030",
@@ -125,7 +127,7 @@ describe('Projects', () => {
         PaidoutStatus: "PAIDOUT",
       };
 
-      it('it update the status', (done) => {
+      it('Update the status', (done) => {
         payloadValue = {
           data:{
             status:Project_STATUS.CreatedProject,
@@ -141,11 +143,10 @@ describe('Projects', () => {
               res.should.have.status(200);
               mlog.log(JSON.stringify(res.body));
               res.body.result.code.should.be.eql(0);
-        done();
+          done();
+        });
       });
     });
-
-  });
 
   describe('Create Agent', () => {
 
