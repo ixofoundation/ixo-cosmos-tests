@@ -359,6 +359,29 @@ describe('Projects', () => {
 
   });
 
+  describe('Withdrawal', () => {
+
+    it('it should process a withdrawal successfully', (done) => {
+      payloadValue = {
+        data:{
+          projectDid:projectDid.did,
+          ethWallet:"0x12345",
+          amount:"100000000"
+        },
+        txHash:"1000001",
+        senderDid:did1.did,
+      };
+
+      chai.request(config.BLOCKCHAIN_URL)
+        .get(utils.makeURL('project/WithdrawFunds', did1, payloadValue))
+        .end((err, res) => {
+              res.should.have.status(200);
+              mlog.log(JSON.stringify(res.body));
+              res.body.result.code.should.be.eql(0);
+        done();
+      });
+    });
+  });
 
 });
   
